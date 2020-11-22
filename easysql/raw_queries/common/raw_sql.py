@@ -148,7 +148,7 @@ class _RawSQLDelete(_RawSQL):
 class _RawSQLWhere(_RawSQL):
     def __init__(self, condition, extra=''):
         check_has_not_type([condition], str)
-        self.condition  = condition
+        self.condition = condition
         self.extra = extra
 
     @property
@@ -223,7 +223,7 @@ class _RawSQLOrder(_RawSQL):
 
     @property
     def _by(self):
-        return 'BY {}'.format(value)
+        return 'BY {}'.format(self.value)
 
     @property
     def _asc(self):
