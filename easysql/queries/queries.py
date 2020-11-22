@@ -1,4 +1,3 @@
-from easysql.errors import SQLError
 from .conditions import SQLConditional as sqc
 
 

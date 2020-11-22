@@ -1,4 +1,4 @@
-from easysql import Query, DBType, SQLConditional as sqc
+from easysql import DBType, SQLConditional as sqc
 
 '''
 examples.py does NOT use
