@@ -1,4 +1,4 @@
-from ...util import check_has_not_type, join
+from ...util import enforce_types, join
 
 
 class _RawSQL:
@@ -15,7 +15,7 @@ class _RawSQLSelect(_RawSQL):
         if constraints is None:
             constraints = []
 
-        check_has_not_type([table_name, column_names], str)
+        enforce_types([table_name, column_names], str)
 
         self.columns = column_names
         self.table = table_name
@@ -57,7 +57,7 @@ class _RawSQLSelectTop(_RawSQLSelect):
 
 class _RawSQLInsert(_RawSQL):
     def __init__(self, table_name, values, column_names=""):
-        check_has_not_type([values, table_name, column_names])
+        enforce_types([values, table_name, column_names])
 
         self.values = values
         self.table = table_name
@@ -103,7 +103,7 @@ class _RawSQLUpdate(_RawSQL):
         if constraints is None:
             constraints = []
 
-        check_has_not_type([column_value_map.items(), table_name], str)
+        enforce_types([column_value_map.items(), table_name], str)
 
         self.column_value_map = column_value_map
         self.table = table_name
@@ -132,7 +132,7 @@ class _RawSQLDelete(_RawSQL):
         if constraints is None:
             constraints = []
 
-        check_has_not_type([table_name])
+        enforce_types([table_name])
         self.table = table_name
         self.constraints = constraints
 
@@ -157,7 +157,7 @@ class _RawSQLDelete(_RawSQL):
 
 class _RawSQLWhere(_RawSQL):
     def __init__(self, condition, extra=""):
-        check_has_not_type([condition], str)
+        enforce_types([condition], str)
         self.condition = condition
         self.extra = extra
 
@@ -176,7 +176,7 @@ class _RawSQLWhere(_RawSQL):
 
 class _RawSQLLike(_RawSQL):
     def __init__(self, pattern):
-        check_has_not_type([pattern])
+        enforce_types([pattern])
         self.pattern = pattern
 
     @property
@@ -190,7 +190,7 @@ class _RawSQLLike(_RawSQL):
 
 class _RawSQLBetween(_RawSQL):
     def __init__(self, num1: str, num2: str):
-        check_has_not_type([num1, num2])
+        enforce_types([num1, num2])
         self.num1 = num1
         self.num2 = num2
 
@@ -205,7 +205,7 @@ class _RawSQLBetween(_RawSQL):
 
 class _RawConditionsInput(_RawSQL):
     def __init__(self, *conditions, keyword=None):
-        check_has_not_type([[str(cond) for cond in conditions], keyword], str)
+        enforce_types([[str(cond) for cond in conditions], keyword], str)
         self._kw = keyword
         self.conditions = [
             str(cond) if type(cond) != list else cond for cond in conditions
