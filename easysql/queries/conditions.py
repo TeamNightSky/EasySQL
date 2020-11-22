@@ -40,13 +40,13 @@ class SQLConditional:
     def __str__(self):
         return self.expr
 
-    def __invert__(self): # Not
+    def __invert__(self):  # Not
         return self.NOT()
 
-    def __and__(self, other): # And
+    def __and__(self, other):  # And
         return self.AND(other)
 
-    def __or__(self, other): # Or
+    def __or__(self, other):  # Or
         return self.OR(other)
 
     __repr__ = __str__
