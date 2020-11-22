@@ -1,15 +1,15 @@
 from easysql import Query, DBType, SQLConditional as sqc
 
 '''
-examples.py does NOT use 
-the best SQL syntax, and 
-that is intentional and 
+examples.py does NOT use
+the best SQL syntax, and
+that is intentional and
 for demonstrational purposes
 '''
 
 print('-> SQL Expressions')
 
-con = sqc('age > 5') 
+con = sqc('age > 5')
 con2 = sqc('age < 10')
 
 print(con & con2) # Use AND to combine conditionals (&)
