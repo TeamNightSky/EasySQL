@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='easydb',
+    name='easysql',
     version='1.0.0',
     author='TeamNightSky',
     description='Python SQL query generator',
