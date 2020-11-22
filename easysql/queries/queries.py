@@ -9,16 +9,15 @@ class Query:
         self.db = db
 
     def __repr__(self):
-        return "<SQLQuery object '{}'>".format(self._method.upper().strip("_"))
+        method_name = self._method.upper().strip("_")
+        return f"<SQLQuery object '{method_name}'>"
 
     def __str__(self):
         return self.string
 
     def __lshift__(self, other):
         if type(other).__name__ != "SQLConditional":
-            raise TypeError(
-                "Cannot add condition to Query with type {}".format(type(other))
-            )
+            raise TypeError(f"Cannot add condition to Query with type {type(other)}")
         if not self._filter:
             self._filter = self.Where(other)._filter
             return
