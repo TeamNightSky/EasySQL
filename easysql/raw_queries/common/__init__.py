@@ -8,5 +8,5 @@ from .raw_sql import (
     _RawSQLLike,
     _RawSQLBetween,
     _RawSQLIn,
-    _RawSQLOrder
+    _RawSQLOrder,
 )

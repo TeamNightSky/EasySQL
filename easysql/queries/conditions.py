@@ -1,8 +1,4 @@
-KEYWORDS = [
-    'OR',
-    'NOT',
-    'AND'
-]
+KEYWORDS = ["OR", "NOT", "AND"]
 
 
 class SQLConditional:
@@ -11,24 +7,24 @@ class SQLConditional:
 
     def AND(self, other):
         if type(self) != type(other):
-            raise TypeError('Not an SQLCondition')
+            raise TypeError("Not an SQLCondition")
         if other._is_compound:
-            expr = self.expr + f' AND ({other.expr})'
+            expr = self.expr + f" AND ({other.expr})"
         else:
-            expr = self.expr + f' AND {other.expr}'
+            expr = self.expr + f" AND {other.expr}"
         return type(self)(expr)
 
     def OR(self, other):
         if type(self) != type(other):
-            raise TypeError('Not an SQLCondition')
+            raise TypeError("Not an SQLCondition")
         if other._is_compound:
-            expr = self.expr + f' OR ({other.expr})'
+            expr = self.expr + f" OR ({other.expr})"
         else:
-            expr = self.expr + f' OR {other.expr}'
+            expr = self.expr + f" OR {other.expr}"
         return type(self)(expr)
 
     def NOT(self):
-        return type(self)('NOT ' + self.expr)
+        return type(self)("NOT " + self.expr)
 
     @property
     def _is_compound(self):
