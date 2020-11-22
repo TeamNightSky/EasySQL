@@ -1,2 +1,0 @@
-onBoot="pip install better_exceptions"
-run = "sh main.sh"
