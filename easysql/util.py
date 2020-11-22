@@ -7,5 +7,6 @@ def check_has_not_type(iterable, obj=str):
         elif type(elem) != obj:
             raise TypeError('{} has to be type {}. Is type {}'.format(elem, obj.__name__, type(elem)))
 
+
 def join(iterable, joiner=' '):
     return joiner.join([part for part in iterable if part != ''])

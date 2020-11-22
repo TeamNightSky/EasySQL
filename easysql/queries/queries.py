@@ -15,7 +15,6 @@ class Query:
     def __str__(self):
         return self.string
 
-
     def __lshift__(self, other):
         if type(other).__name__ != 'SQLConditional':
             raise TypeError('Cannot add condition to Query with type {}'.format(type(other)))

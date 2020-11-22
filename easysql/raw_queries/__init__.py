@@ -1,10 +1,12 @@
 import easysql.raw_queries.common as common
 from ..queries import Query
 
+
 def wrap(raw_class):
     def construct(*args, **kwargs):
         return raw_class(*args, **kwargs)
     return construct
+
 
 _METHODS = {
     'postgres': {
@@ -34,6 +36,7 @@ _METHODS = {
 
     }
 }
+
 
 class DBType:
     def __init__(self, name):

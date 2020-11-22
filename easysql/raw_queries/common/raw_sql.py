@@ -43,6 +43,7 @@ class _RawSQLSelectDistinct(_RawSQLSelect):
     def _select(self):
         return 'SELECT DISTINCT {}'.format(', '.join(self.columns))
 
+
 class _RawSQLSelectTop(_RawSQLSelect):
     def __init__(self, row_count, columns, table_name, constraints=[]):
         self.rows = row_count
@@ -74,6 +75,7 @@ class _RawSQLInsert(_RawSQL):
     @property
     def query(self):
         return join([self._insert, self._values]) + ';'
+
 
 class _RawSQLInsertIntoSelect(_RawSQLInsert):
     def __init__(self, table_name, select_query):
@@ -118,7 +120,7 @@ class _RawSQLUpdate(_RawSQL):
 
     @property
     def query(self):
-        return join([self._update,self._set, self._constraints]) + ';'
+        return join([self._update, self._set, self._constraints]) + ';'
 
 
 class _RawSQLDelete(_RawSQL):
@@ -208,6 +210,7 @@ class _RawSQLIn(_RawConditionsInput):
     @property
     def query(self):
         return '{} ({})'.format(self._kw.upper(), ', '.join(*self.conditions))
+
 
 class _RawSQLOrder(_RawSQL):
     def __init__(self, value, asc):
