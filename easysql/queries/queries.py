@@ -12,7 +12,6 @@ class Query:
         if _class.__name__ not in ["_insert", "_table"] and self._filter is not None:
             self.method = _class(*self._args, [self._filter])
         else:
-            print(repr(_class))
             self.method = _class(*self._args)
 
     def __repr__(self):
