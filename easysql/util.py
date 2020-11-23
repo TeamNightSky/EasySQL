@@ -19,9 +19,13 @@ def enforce_types(iterable, _type=str, exact=False, inner=True):
     If `inner` is false, don't check sub-elements
     """
     for elem in iterable:
-        if inner and hasattr(elem, "__iter__"):
-            enforce_types(elem, _type, exact)
-        enforce_type(elem, _type, exact)
+        try:
+            enforce_type(elem, _type, exact)
+        except TypeError as exc:
+            if inner and hasattr(elem, "__iter__"):
+                enforce_types(elem, _type, exact, inner)
+            else:
+                raise exc
 
 
 def join(iterable, joiner=" "):
