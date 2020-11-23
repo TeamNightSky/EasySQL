@@ -1,4 +1,4 @@
-from ...util import check_has_not_type, join
+from easysql.util import enforce_types, join
 
 
 class _RawSQL:
@@ -15,7 +15,7 @@ class _RawSQLSelect(_RawSQL):
         if constraints is None:
             constraints = []
 
-        check_has_not_type([table_name, column_names], str)
+        enforce_types([table_name, column_names], str)
 
         self.columns = column_names
         self.table = table_name
@@ -23,15 +23,16 @@ class _RawSQLSelect(_RawSQL):
 
     @property
     def _select(self):
-        return "SELECT {}".format(", ".join(self.columns))
+        sql_columns = ", ".join(self.columns)
+        return f"SELECT {sql_columns}"
 
     @property
     def _from(self):
-        return "FROM {}".format(self.table)
+        return f"FROM {self.table}"
 
     @property
     def _constraints(self):
-        return "\n".join([where.query for where in self.constraints])
+        return "\n".join(where.query for where in self.constraints)
 
     @property
     def query(self):
@@ -41,21 +42,24 @@ class _RawSQLSelect(_RawSQL):
 class _RawSQLSelectDistinct(_RawSQLSelect):
     @property
     def _select(self):
-        return "SELECT DISTINCT {}".format(", ".join(self.columns))
+        sql_columns = ", ".join(self.columns)
+        return f"SELECT DISTINCT {sql_columns}"
 
 
 class _RawSQLSelectTop(_RawSQLSelect):
-    def __init__(self, row_count, columns, table_name, constraints=[]):
+    def __init__(self, row_count, columns, table_name, constraints=None):
+        if not constraints:
+            constraints = []
         self.rows = row_count
         super().__init__(columns, table_name, constraints)
 
     def _select(self):
-        return "SELECT TOP {} {}".format(self.rows, self.columns)
+        return f"SELECT TOP {self.rows} {self.columns}"
 
 
 class _RawSQLInsert(_RawSQL):
     def __init__(self, table_name, values, column_names=""):
-        check_has_not_type([values, table_name, column_names])
+        enforce_types([values, table_name, column_names])
 
         self.values = values
         self.table = table_name
@@ -63,14 +67,15 @@ class _RawSQLInsert(_RawSQL):
 
     @property
     def _insert(self):
-        insert = "INSERT INTO {}".format(self.table)
+        insert = f"INSERT INTO {self.table}"
         if self.columns:
-            insert += " ({})".format(", ".join(self.columns))
+            insert += f" ({', '.join(self.columns)})"
         return insert
 
     @property
     def _values(self):
-        return "VALUES ({})".format(", ".join(self.values))
+        sql_values = ", ".join(self.values)
+        return f"VALUES ({sql_values})"
 
     @property
     def query(self):
@@ -84,7 +89,7 @@ class _RawSQLInsertIntoSelect(_RawSQLInsert):
 
     @property
     def _insert(self):
-        return "INSERT INTO {}".format(self.table)
+        return f"INSERT INTO {self.table}"
 
     @property
     def _select(self):
@@ -100,7 +105,7 @@ class _RawSQLUpdate(_RawSQL):
         if constraints is None:
             constraints = []
 
-        check_has_not_type([column_value_map.items(), table_name], str)
+        enforce_types([column_value_map.items(), table_name], str)
 
         self.column_value_map = column_value_map
         self.table = table_name
@@ -108,13 +113,12 @@ class _RawSQLUpdate(_RawSQL):
 
     @property
     def _update(self):
-        return "UPDATE {}".format(self.table)
+        return f"UPDATE {self.table}"
 
     @property
     def _set(self):
-        return "SET {}".format(
-            ", ".join([" = ".join(item) for item in self.column_value_map.items()])
-        )
+        sql_col_val_map = ", ".join(" = ".join(item) for item in self.column_value_map.items())
+        return f"SET {sql_col_val_map}"
 
     @property
     def _constraints(self):
@@ -130,13 +134,13 @@ class _RawSQLDelete(_RawSQL):
         if constraints is None:
             constraints = []
 
-        check_has_not_type([table_name])
+        enforce_types([table_name])
         self.table = table_name
         self.constraints = constraints
 
     @property
     def _delete(self):
-        return "DELETE FROM {}".format(self.table)
+        return f"DELETE FROM {self.table}"
 
     @property
     def _constraints(self):
@@ -149,14 +153,13 @@ class _RawSQLDelete(_RawSQL):
                 [self._delete] + [self._constraints]
                 if self._constraints != ""
                 else [self._delete]
-            )
-            + ";"
+            ) + ";"
         )
 
 
 class _RawSQLWhere(_RawSQL):
     def __init__(self, condition, extra=""):
-        check_has_not_type([condition], str)
+        enforce_types([condition], str)
         self.condition = condition
         self.extra = extra
 
@@ -166,7 +169,7 @@ class _RawSQLWhere(_RawSQL):
 
     @property
     def _where(self):
-        return "WHERE {}".format(str(self.condition))
+        return f"WHERE {self.condition}"
 
     @property
     def query(self):
@@ -175,12 +178,12 @@ class _RawSQLWhere(_RawSQL):
 
 class _RawSQLLike(_RawSQL):
     def __init__(self, pattern):
-        check_has_not_type([pattern])
+        enforce_types([pattern])
         self.pattern = pattern
 
     @property
     def _like(self):
-        return "LIKE {}".format(self.pattern)
+        return f"LIKE {self.pattern}"
 
     @property
     def query(self):
@@ -189,12 +192,13 @@ class _RawSQLLike(_RawSQL):
 
 class _RawSQLBetween(_RawSQL):
     def __init__(self, num1: str, num2: str):
-        check_has_not_type([num1, num2])
-        self.nums = num1, num2
+        enforce_types([num1, num2])
+        self.num1 = num1
+        self.num2 = num2
 
     @property
     def _between(self):
-        return "BETWEEN {} AND {}".format(*self.nums)
+        return f"BETWEEN {self.num1} AND {self.num2}"
 
     @property
     def query(self):
@@ -203,7 +207,7 @@ class _RawSQLBetween(_RawSQL):
 
 class _RawConditionsInput(_RawSQL):
     def __init__(self, *conditions, keyword=None):
-        check_has_not_type([[str(cond) for cond in conditions], keyword], str)
+        enforce_types([[str(cond) for cond in conditions], keyword], str)
         self._kw = keyword
         self.conditions = [
             str(cond) if type(cond) != list else cond for cond in conditions
@@ -220,7 +224,8 @@ class _RawSQLIn(_RawConditionsInput):
 
     @property
     def query(self):
-        return "{} ({})".format(self._kw.upper(), ", ".join(*self.conditions))
+        sql_conditions = ", ".join(*self.conditions)
+        return f"{self._kw.upper()} ({sql_conditions})"
 
 
 class _RawSQLOrder(_RawSQL):
@@ -234,7 +239,7 @@ class _RawSQLOrder(_RawSQL):
 
     @property
     def _by(self):
-        return "BY {}".format(value)
+        return f"BY {self.value}"
 
     @property
     def _asc(self):

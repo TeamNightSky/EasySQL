@@ -1,2 +1,2 @@
-from .conditions import SQLConditional
-from .queries import Query
+from easysql.queries.conditions import SQLConditional  # noqa
+from easysql.queries.queries import Query  # noqa

@@ -1,5 +1,5 @@
 import easysql.raw_queries.common as common
-from ..queries import Query
+from easysql.queries import Query
 
 
 def wrap(raw_class):
@@ -40,7 +40,7 @@ _METHODS = {
 class DBType:
     def __init__(self, name):
         if name.lower() not in _METHODS.keys():
-            raise ValueError("{} is not a valid DB name".format(name))
+            raise ValueError(f"{name} is not a valid DB name")
         self._name = name.lower()
 
     def __getattr__(self, attr):
