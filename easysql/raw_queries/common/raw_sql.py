@@ -47,7 +47,9 @@ class _RawSQLSelectDistinct(_RawSQLSelect):
 
 
 class _RawSQLSelectTop(_RawSQLSelect):
-    def __init__(self, row_count, columns, table_name, constraints=[]):
+    def __init__(self, row_count, columns, table_name, constraints=None):
+        if not constraints:
+            constraints = []
         self.rows = row_count
         super().__init__(columns, table_name, constraints)
 
