@@ -1,5 +1,5 @@
 import easysql.raw_queries.common as common
-from ..queries import Query
+from easysql.queries import Query
 
 
 def wrap(raw_class):

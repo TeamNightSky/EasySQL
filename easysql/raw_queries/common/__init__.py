@@ -1,4 +1,4 @@
-from .raw_sql import (
+from easysql.raw_queries.common.raw_sql import (
     _RawSQLSelect,
     _RawSQLSelectDistinct,
     _RawSQLInsert,

@@ -1,2 +1,2 @@
-from .queries import Query, SQLConditional
-from .raw_queries import DBType
+from easysql.queries import Query, SQLConditional
+from easysql.raw_queries import DBType

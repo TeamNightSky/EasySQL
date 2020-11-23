@@ -1,4 +1,4 @@
-from ...util import enforce_types, join
+from easysql.util import enforce_types, join
 
 
 class _RawSQL:

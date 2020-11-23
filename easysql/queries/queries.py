@@ -1,4 +1,4 @@
-from .conditions import SQLConditional as sqc
+from easysql.queries.conditions import SQLConditional as sqc
 
 
 class Query:
