@@ -32,7 +32,7 @@ class _RawSQLSelect(_RawSQL):
 
     @property
     def _constraints(self):
-        return "\n".join([where.query for where in self.constraints])
+        return "\n".join(where.query for where in self.constraints)
 
     @property
     def query(self):
