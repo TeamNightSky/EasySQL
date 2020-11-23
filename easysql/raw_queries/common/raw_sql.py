@@ -248,3 +248,22 @@ class _RawSQLOrder(_RawSQL):
     @property
     def query(self):
         return join([self._order, self._by, self._asc])
+
+
+class _RawSQLTable(_RawSQL):
+    def __init__(self, name, column_value_map: dict, if_not_exists=True):
+        self.name = name
+        self.map = column_value_map
+        self.if_not_exists = if_not_exists
+
+    @property
+    def _create(self):
+        return f"CREATE TABLE {'IF NOT EXISTS ' if self.if_not_exists else ''}{self.name}"
+
+    @property
+    def _values(self):
+        return f"({', '.join([' '.join(items) for items in self.map.items()])})"
+
+    @property
+    def query(self):
+        return join([self._create, self._values]) + ";"

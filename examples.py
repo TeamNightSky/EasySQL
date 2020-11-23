@@ -1,4 +1,5 @@
 from easysql import DBType, SQLConditional as sqc
+from easysql.raw_queries.common import _RawSQLTable
 
 """
 examples.py does NOT use
@@ -24,6 +25,10 @@ Q_select = db.query("select", "*", "people")   # SQL SELECT method
 Q_delete = db.query("delete", "people")   # SQL DELETE method
 Q_insert = db.query("insert", "people", ["fox", "-1"])   # SQL INSERT method
 Q_update = db.query("update", "people", {"name": "fox", "age": "-1"})   # SQL UPDATE method
+Q_table = _RawSQLTable(
+    name="People",
+    column_value_map={"name": "varchar(255)", "age": "int"}
+)  # SQL CREATE TABLE method
 
 Q_select << ~con2   # add NOT con2 to Q_select
 Q_select << con   # add con to Q_select (Query uses AND to join unjoined conditionals)

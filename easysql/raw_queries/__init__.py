@@ -21,6 +21,7 @@ _METHODS = {
         "between": wrap(common._RawSQLBetween),
         "in": wrap(common._RawSQLIn),
         "order": wrap(common._RawSQLOrder),
+        "table": wrap(common._RawSQLTable),
     },
     "mysql": {
         "select": wrap(common._RawSQLSelect),
@@ -33,6 +34,7 @@ _METHODS = {
         "between": wrap(common._RawSQLBetween),
         "in": wrap(common._RawSQLIn),
         "order": wrap(common._RawSQLOrder),
+        "table": wrap(common._RawSQLTable),
     },
 }
 
