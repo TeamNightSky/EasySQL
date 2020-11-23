@@ -7,8 +7,13 @@ verify_ssl = true
 flake8 = "*"
 flake8-bugbear = "*"
 flake8-import-order = "*"
+pre-commit = "*"
 
 [packages]
 
+[scripts]
+lint = "pre-commit run --all-files"
+
 [requires]
 python_version = "3.8"
+
