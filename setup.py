@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="easysql",
-    version="1.0.0",
+    version="1.0.1",
     author="TeamNightSky",
     description="Python SQL query generator",
     long_description=long_description,
@@ -20,5 +20,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3 :: Only",
         "Topic :: Database",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.6",
 )
