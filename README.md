@@ -36,4 +36,26 @@ condition5 = ~condition  # NOT
 
 ## Queries
 
--- WIP
+Queries are inititated with the query type of the Query, the args for the type, and inititated from a DBType or with a DBType as a param.
+
+```python
+from easysql import DBType, Query
+
+db = DBType("<db name>")
+
+Q_param = Query("<type>", <args>, db=db) #  With DBType as a parameter
+Q_method = db.query("<type>", <args>) #  From DBType method
+```
+
+Queries currently have the following types:
+
+WIP
+
+```
+select         -- SQL SELECT method.           Params: column_names, table_name, constraints=None
+delete         -- SQL DELETE method.           Params: table_name, constraints=None
+update         -- SQL UPDATE method.           Params: 
+insert         -- SQL INSERT method.           Params:
+table          -- SQL CREATE TABLE method.     Params:
+selectdistinct -- SQL SELECT DISTINCT method.  Params:
+```
